@@ -3,19 +3,19 @@ package com.memija.demo.configurations;
 public class ClientCertificate {
 
     /**
-     * Replace with the valid value for the Proxy Host.
+     * Replace with the valid value for the Trust Store.
      */
     private static final String trustStore = "pathToTheTrustStore/trustStore";
     /**
-     * Replace with valid value for the Proxy Port.
+     * Replace with valid value for the Trust Store password.
      */
     private static final String trustStorePassword = "Trust store password";
     /**
-     * Replace with valid value for the Username.
+     * Replace with valid value for the Key Store.
      */
     private static final String keyStore = "pathToTheClientCertificate/clientCertificate";
     /**
-     * Replace with valid value for the Password.
+     * Replace with valid value for the Key Store password.
      */
     private static final String keyStorePassword = "Client certificate password";
     
