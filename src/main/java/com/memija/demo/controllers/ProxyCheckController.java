@@ -1,4 +1,4 @@
-package com.memija.demo;
+package com.memija.demo.controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;

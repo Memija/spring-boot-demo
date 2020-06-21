@@ -1,4 +1,4 @@
-package com.memija.demo;
+package com.memija.demo.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
