@@ -1,25 +1,26 @@
 package com.memija.demo.configurations;
 
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ClientCertificate {
 
-    /**
-     * Replace with the valid value for the Trust Store.
-     */
-    private static final String trustStore = "pathToTheTrustStore/trustStore";
-    /**
-     * Replace with valid value for the Trust Store password.
-     */
-    private static final String trustStorePassword = "Trust store password";
-    /**
-     * Replace with valid value for the Key Store.
-     */
-    private static final String keyStore = "pathToTheClientCertificate/clientCertificate";
-    /**
-     * Replace with valid value for the Key Store password.
-     */
-    private static final String keyStorePassword = "Client certificate password";
+    @Value("${ssl.trust-store}")
+    private String trustStore;
+
+    @Value("${ssl.trust-store-password}")
+    private String trustStorePassword;
+
+    @Value("${ssl.key-store}")
+    private String keyStore;
+
+    @Value("${ssl.key-store-password}")
+    private String keyStorePassword;
     
-    public void SetClientCertificate() {
+    @PostConstruct
+    public void setClientCertificate() {
         System.setProperty("javax.net.ssl.truststore", trustStore);
         System.setProperty("javax.net.ssl.truststorePassword", trustStorePassword);
 

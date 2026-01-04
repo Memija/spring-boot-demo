@@ -2,27 +2,27 @@ package com.memija.demo.configurations;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProxyConnectionWithAuthorization {
 
-    /**
-     * Replace with the valid value for the Proxy Host.
-     */
-    private static final String proxyHost = "Default value";
-    /**
-     * Replace with valid value for the Proxy Port.
-     */
-    private static final String proxyPort = "Default value";
-    /**
-     * Replace with valid value for the Username.
-     */
-    private static final String username = "Default value";
-    /**
-     * Replace with valid value for the Password.
-     */
-    private static final String password = "Default value";
+    @Value("${proxy.hostname}")
+    private String proxyHost;
 
-    public void SetProxyConnectionWithAuthorization() {
+    @Value("${proxy.port}")
+    private String proxyPort;
+
+    @Value("${proxy.username}")
+    private String username;
+
+    @Value("${proxy.password}")
+    private String password;
+
+    @PostConstruct
+    public void setProxyConnectionWithAuthorization() {
         System.setProperty("https.ProxyHost", proxyHost);
         System.setProperty("https.ProxyPort", proxyPort);
 

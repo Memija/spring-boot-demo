@@ -11,6 +11,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.Proxy.Type;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,67 +22,51 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProxyCheckController {
 
-    /**
-     * Replace with the valid value for the hostname.
-     */
-    private static final String hostname = "hostname";
-    /**
-     * Replace with valid value for the URL string.
-     */
-    private static final String urlString = "urlString";
+    private static final Logger logger = LoggerFactory.getLogger(ProxyCheckController.class);
+
+    @Value("${proxy.hostname}")
+    private String hostname;
+
+    @Value("${proxy.url-string}")
+    private String urlString;
+
+    @Value("${proxy.port}")
+    private int port;
 
     @GetMapping("/proxycheck")
-    public ResponseEntity<StringBuilder> ProxyCheck() {
+    public ResponseEntity<String> proxyCheck() {
         StringBuilder content = new StringBuilder();
 
         try {
-            URLConnection connection = OpenConnection();
-            content = ReadStream(content, connection);
+            URLConnection connection = openConnection();
+            content = readStream(content, connection);
         } catch (Exception exception) {
-            System.out.println((exception.getMessage()));
-            String exceptionStackTrace = GetExceptionStackTrace(exception);
-            System.out.println(exceptionStackTrace);
+            logger.error(exception.getMessage(), exception);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<StringBuilder>(content, HttpStatus.OK);
+        return new ResponseEntity<>(content.toString(), HttpStatus.OK);
     }
 
-    private Proxy InitiateProxy() {
-        int port = 8080;
+    private Proxy initiateProxy() {
         Type proxyType = Proxy.Type.HTTP;
-
         SocketAddress socketAddress = new InetSocketAddress(hostname, port);
-        Proxy proxy = new Proxy(proxyType, socketAddress);
-        return proxy;
+        return new Proxy(proxyType, socketAddress);
     }
 
-    private URLConnection OpenConnection() throws MalformedURLException, IOException {
-        Proxy proxy = InitiateProxy();
+    private URLConnection openConnection() throws MalformedURLException, IOException {
+        Proxy proxy = initiateProxy();
         URL url = new URL(urlString);
-        URLConnection connection = url.openConnection(proxy);
-        return connection;
+        return url.openConnection(proxy);
     }
 
-    private StringBuilder ReadStream(StringBuilder content, URLConnection connection) throws IOException {
-        String lineOfText;
-
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        while ((lineOfText = bufferedReader.readLine()) != null) {
-            content.append(lineOfText + "\n");
+    private StringBuilder readStream(StringBuilder content, URLConnection connection) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            String lineOfText;
+            while ((lineOfText = bufferedReader.readLine()) != null) {
+                content.append(lineOfText).append("\n");
+            }
         }
-
-        bufferedReader.close();
-
         return content;
-    }
-
-    private String GetExceptionStackTrace(Exception exception) {
-        StackTraceElement[] stack = exception.getStackTrace();
-        String exceptionStackTrace = "";
-        for (StackTraceElement s : stack) {
-            exceptionStackTrace = exceptionStackTrace + s.toString() + "\n\t\t";
-        }
-        return exceptionStackTrace;
     }
 }
