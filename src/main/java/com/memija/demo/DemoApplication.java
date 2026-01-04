@@ -14,9 +14,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class DemoApplication {
 
-	private static final String apiEndpoint = "https://gturnquist-quoters.cfapps.io/api/random";
+	// private static final String apiEndpoint = "https://gturnquist-quoters.cfapps.io/api/random";
 
-	private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
+	// private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -27,12 +27,12 @@ public class DemoApplication {
 		return builder.build();
 	}
 
-	@Bean
-	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
-		return args -> {
-			Quote quote = restTemplate.getForObject(apiEndpoint, Quote.class);
-			log.info(quote.toString());
-		};
-	}
+	// @Bean
+	// public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
+	// 	return args -> {
+	// 		Quote quote = restTemplate.getForObject(apiEndpoint, Quote.class);
+	// 		log.info(quote.toString());
+	// 	};
+	// }
 
 }
