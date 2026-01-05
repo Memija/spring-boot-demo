@@ -9,6 +9,7 @@ public class Value {
   private String quote;
 
   public Value() {
+    // Default constructor needed for Jackson deserialization
   }
 
   public Long getId() {

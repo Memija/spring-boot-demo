@@ -54,7 +54,7 @@ public class ProxyCheckController {
         return new Proxy(proxyType, socketAddress);
     }
 
-    private URLConnection openConnection() throws MalformedURLException, IOException {
+    private URLConnection openConnection() throws IOException {
         Proxy proxy = initiateProxy();
         URL url = new URL(urlString);
         return url.openConnection(proxy);
