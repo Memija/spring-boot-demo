@@ -27,6 +27,7 @@ public class ProxyConnectionWithAuthorization {
         System.setProperty("https.ProxyPort", proxyPort);
 
         Authenticator.setDefault(new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password.toCharArray());
             }

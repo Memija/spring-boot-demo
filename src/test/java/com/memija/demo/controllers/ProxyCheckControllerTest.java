@@ -11,13 +11,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProxyCheckControllerTest {
+class ProxyCheckControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testProxyCheckFailure() throws Exception {
+    void testProxyCheckFailure() throws Exception {
         // Since we don't have a real proxy setup, this should fail with 500
         mockMvc.perform(get("/proxycheck"))
                 .andExpect(status().isInternalServerError());

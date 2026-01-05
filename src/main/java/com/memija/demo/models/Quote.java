@@ -9,6 +9,7 @@ public class Quote {
   private Value value;
 
   public Quote() {
+    // Default constructor needed for Jackson deserialization
   }
 
   public String getType() {
